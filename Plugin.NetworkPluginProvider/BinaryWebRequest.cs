@@ -5,13 +5,16 @@ using System.Text;
 
 namespace AlphaOmega.Web
 {
+	/// <summary>HttpWebRequest facade to read response as Byte[] or String</summary>
 	public class BinaryWebRequest : IDisposable
 	{
 		/// <summary>Минимальный размер буфера</summary>
 		private const Int32 MinBufferLength = 1024;
 
+		/// <summary>The request instance</summary>
 		protected HttpWebRequest Request { get; set; }
 
+		/// <summary>The response instance</summary>
 		protected HttpWebResponse Response { get; set; }
 
 		/// <summary>Создание экземпляра класса запроса Uri ссылки</summary>
@@ -24,6 +27,9 @@ namespace AlphaOmega.Web
 				this.Request.Proxy = new WebProxy() { UseDefaultCredentials = true, };
 		}
 
+		/// <summary>Create instance if <see cref="BinaryWebRequest"/> with webRequest instance</summary>
+		/// <param name="request">The request instance</param>
+		/// <exception cref="ArgumentNullException">request shoud not be null</exception>
 		public BinaryWebRequest(HttpWebRequest request)
 		{
 			this.Request = request ?? throw new ArgumentNullException(nameof(request));
@@ -92,6 +98,9 @@ namespace AlphaOmega.Web
 		public String GetResponse(Int32 codePage)
 			=> this.GetResponse(Encoding.GetEncoding(codePage));
 
+		/// <summary>Get response from server with specific encoding</summary>
+		/// <param name="codePage">The codepage to use to decode payload</param>
+		/// <returns>Body as String</returns>
 		public String GetResponse(Encoding codePage)
 		{
 			using(StreamReader reader = new StreamReader(this.GetResponseStream(), codePage))
@@ -110,6 +119,8 @@ namespace AlphaOmega.Web
 			}
 			return result.ToString();*/
 		}
+
+		/// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 		public void Dispose()
 			=> this.Response?.Close();
 	}

@@ -12,7 +12,9 @@ namespace Plugin.NetworkPluginProvider.Data
 	internal class UpdateBll
 	{
 		private readonly PluginLoader _loader;
+
 		private UpdateInfo _local;
+
 		private DateTime? _lastModified;
 
 		/// <summary>Появилась новая версия</summary>
@@ -21,11 +23,9 @@ namespace Plugin.NetworkPluginProvider.Data
 			get => this._local != null && (!this.CheckLocalPlugins() || this.IsNewVersion());
 		}
 
-		/// <summary>Локальная папка в которую сохраняются плагины после загрузки из интернетов</summary>
-		//private String LocalPath { get { return this._loader.LocalPath; } }
-
 		/// <summary>Создание экземпляра класса с указанием пути до XML файла с информацией</summary>
-		/// <param name="xmlFilePath">Путь к XML файлу</param>
+		/// <param name="plugin">The reference to current plugin provider.</param>
+		/// <param name="localPath">Путь к XML файлу</param>
 		public UpdateBll(Plugin plugin, String localPath)
 			: this(new PluginLoader(plugin, localPath))
 		{
