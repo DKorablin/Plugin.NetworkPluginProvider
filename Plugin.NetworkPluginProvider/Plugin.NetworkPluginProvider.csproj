@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<OutputType>Library</OutputType>
+		<RootNamespace>Plugin.NetworkPluginProvider</RootNamespace>
+		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+		<AssemblyTitle>Plugin.NetworkPluginProvider</AssemblyTitle>
+		<Company>Danila Korablin</Company>
+		<Product>Provides access to assemblies througth network</Product>
+		<Copyright>Copyright © Danila Korablin 2011-2024</Copyright>
+		<Configuration>Debug</Configuration>
+		<AssemblyVersion>1.2.*</AssemblyVersion>
+		<FileVersion>1.2.0.0</FileVersion>
+		<Deterministic>false</Deterministic>
+	</PropertyGroup>
+	<ItemGroup>
+		<Reference Include="SAL.Flatbed">
+			<HintPath>..\..\SAL\bin\SAL.Flatbed.dll</HintPath>
+			<Private>False</Private>
+		</Reference>
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Include="..\PluginProviders.Shared\FilePluginArgs.cs">
+			<Link>Data\FilePluginArgs.cs</Link>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<Content Include="Plugins.Network.xml" />
+		<Content Include="Plugins.Network.xsd">
+			<AutoGen>True</AutoGen>
+			<DesignTime>True</DesignTime>
+			<DependentUpon>Plugins.Network.xml</DependentUpon>
+		</Content>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Properties\Resources.resx">
+			<Generator>ResXFileCodeGenerator</Generator>
+			<LastGenOutput>Resources.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<Compile Update="Properties\Resources.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Resources.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="SAL.Flatbed" Version="1.2.9" />
+		<PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
+	</ItemGroup>
+</Project>
