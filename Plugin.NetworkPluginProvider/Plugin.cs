@@ -92,7 +92,7 @@ namespace Plugin.NetworkPluginProvider
 			AssemblyName targetName = new AssemblyName(assemblyName);
 			foreach(String pluginPath in this._args.PluginPath)
 				if(Directory.Exists(pluginPath))
-					foreach(String file in new PluginLoader(this, pluginPath).GetFiles(delegate(String fileName) { return Path.GetExtension(fileName).Equals(".dll", StringComparison.InvariantCultureIgnoreCase); }))
+					foreach(String file in new PluginLoader(this, pluginPath).GetFiles((String fileName) => { return FilePluginArgs.CheckFileExtension(fileName); }))
 						try
 						{
 							AssemblyName name = AssemblyName.GetAssemblyName(file);
@@ -123,7 +123,7 @@ namespace Plugin.NetworkPluginProvider
 					bll.LoadPlugins();
 					/*if(this.Host.Plugins.Count == 0)//TODO: Проблема возникает при Assembly.LoadFile(...) если такая сборка уже была загружена
 						foreach(String file in Directory.GetFiles(pluginPath))
-							if(Path.GetExtension(file).Equals(".dll", StringComparison.InvariantCultureIgnoreCase))
+							if(FilePluginArgs.CheckExtension(file))
 								try
 								{
 									Assembly asm = Assembly.LoadFile(file);

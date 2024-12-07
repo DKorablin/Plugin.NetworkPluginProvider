@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Reflection;
 using AlphaOmega.Web;
+using Plugin.FilePluginProvider;
 using SAL.Flatbed;
 
 namespace Plugin.NetworkPluginProvider.Data
@@ -127,7 +128,7 @@ namespace Plugin.NetworkPluginProvider.Data
 				} else if(File.Exists(source))
 					return File.GetLastWriteTime(source) > File.GetLastWriteTime(local);
 				else
-					throw new NotSupportedException(String.Format("Source: {0} Local: {1}", source, local));
+					throw new NotSupportedException($"Source: {source} Local: {local}");
 			} else if(!String.IsNullOrEmpty(source))
 				return true;
 			else
@@ -181,7 +182,7 @@ namespace Plugin.NetworkPluginProvider.Data
 
 		public void LoadPlugins()
 		{
-			foreach(String file in this._loader.GetFiles(delegate (String fileName) { return Path.GetExtension(fileName).Equals(".dll", StringComparison.InvariantCultureIgnoreCase); }))
+			foreach(String file in this._loader.GetFiles((String fileName) => { return FilePluginArgs.CheckFileExtension(fileName); }))
 				try
 				{
 					Assembly asm = Assembly.LoadFile(file);
