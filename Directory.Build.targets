@@ -10,6 +10,16 @@
 			<AssemblyAttributes Include="AssemblyInformationalVersion">
 				<_Parameter1>$(Version)</_Parameter1>
 			</AssemblyAttributes>
+			<AssemblyAttributes Include="AssemblyConfiguration">
+				<_Parameter1>$(Configuration)</_Parameter1>
+			</AssemblyAttributes>
+			<AssemblyAttributes Include="AssemblyCompany">
+				<_Parameter1>Danila Korablin</_Parameter1>
+			</AssemblyAttributes>
+			<AssemblyAttributes Include="System.Runtime.InteropServices.ComVisible">
+				<_Parameter1>false</_Parameter1>
+				<_Parameter1_TypeName>System.Boolean</_Parameter1_TypeName>
+			</AssemblyAttributes>
 		</ItemGroup>
 		<MakeDir Directories="$(IntermediateOutputPath)" />
 		<WriteCodeFragment Language="C#" OutputFile="$(IntermediateOutputPath)Version.cs" AssemblyAttributes="@(AssemblyAttributes)" />
