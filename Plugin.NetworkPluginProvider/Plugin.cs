@@ -148,11 +148,11 @@ namespace Plugin.NetworkPluginProvider
 			return result;
 		}
 
-		/// <summary>Получить уникальное имя файла не повторяющееся на файловой системе.</summary>
-		/// <param name="path">Путь к папке в которой осуществлять поиск файла.</param>
-		/// <param name="fileName">Наименование файла.</param>
-		/// <param name="index">Индекс файла, который будет подставляться к названию файла.</param>
-		/// <returns>Уникальное наименование файла в папке <see cref="T:path"/>.</returns>
+		/// <summary>Get a unique file name that is not duplicated in the file system.</summary>
+		/// <param name="path">Path to the folder in which to search for the file.</param>
+		/// <param name="fileName">File name.</param>
+		/// <param name="index">The file index that will be substituted into the file name.</param>
+		/// <returns>Unique file name in the folder <see cref="T:path"/>.</returns>
 		private static String GetUniqueFileName(String path, String fileName, Int32 index)
 		{
 			String file = index > 0

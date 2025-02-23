@@ -8,8 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyMetadata("ProjectUrl", "https://dkorablin.ru/project/Default.aspx?File=108")]
 
 #else
-[assembly: AssemblyTitle("Plugin.NetworkPluginProvider")]
-[assembly: AssemblyProduct("Provides access to plugins througth the network")]
+[assembly: AssemblyDescription("Provides access to plugins througth the network")]
 [assembly: AssemblyCopyright("Copyright © Danila Korablin 2011-2025")]
 
 #endif
