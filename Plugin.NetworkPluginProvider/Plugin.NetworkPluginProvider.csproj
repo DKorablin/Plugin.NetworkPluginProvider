@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<OutputType>Library</OutputType>
@@ -44,6 +44,6 @@
 	<ItemGroup>
 		<PackageReference Include="SAL.Flatbed" Version="1.2.10" />
 		<PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.4" />
 	</ItemGroup>
 </Project>
