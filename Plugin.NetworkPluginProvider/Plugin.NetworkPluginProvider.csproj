@@ -1,22 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>netstandard2.0</TargetFramework>
+		<TargetFrameworks>net35;netstandard2.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<RootNamespace>Plugin.NetworkPluginProvider</RootNamespace>
-		<GenerateAssemblyInfo>true</GenerateAssemblyInfo>
-		<Description>Provides access to assemblies througth network</Description>
-		<Copyright>Copyright © Danila Korablin 2011-2025</Copyright>
-		<Configuration>Debug</Configuration>
-		<AssemblyVersion>1.2.*</AssemblyVersion>
-		<FileVersion>1.2.0.0</FileVersion>
+		<Configuration>Release</Configuration>
 		<Deterministic>false</Deterministic>
+		<GenerateAssemblyInfo>False</GenerateAssemblyInfo>
+		<GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+		<GenerateDocumentationFile>False</GenerateDocumentationFile>
+		<CopyLocalLockFileAssemblies>True</CopyLocalLockFileAssemblies>
 	</PropertyGroup>
+
+	<!--nuspec-->
+	<PropertyGroup>
+		<PackageId>AlphaOmega.SAL.Plugin.NetworkPluginProvider</PackageId>
+		<Version>$(Version)</Version>
+		<Title>Provides access to plugins through the network</Title>
+		<Description>This plugin provider implements the ability to download and update plugins from remote server</Description>
+		<Authors>Danila Korablin</Authors>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageReadmeFile>docs\README.md</PackageReadmeFile>
+		<PackageIcon>docs\SAL.100.png</PackageIcon>
+		<RepositoryUrl>https://github.com/DKorablin/Plugin.NetworkPluginProvider</RepositoryUrl>
+		<PackageTags>SAL,Plugin,Provider</PackageTags>
+	</PropertyGroup>
+
 	<ItemGroup>
-		<Reference Include="SAL.Flatbed">
-			<HintPath>..\..\SAL\bin\SAL.Flatbed.dll</HintPath>
-			<Private>False</Private>
-		</Reference>
+		<None Include="..\README.md" Pack="true" PackagePath="\docs" />
+		<None Include="..\Images.Shared\SAL.100.png" Pack="true" PackagePath="\docs" />
 	</ItemGroup>
+
+	<ItemGroup>
+		<AssemblyAttributes Include="AssemblyMetadata" Condition="'$(TargetFramework)'=='netstandard2.0'">
+			<_Parameter1>ProjectUrl</_Parameter1>
+			<_Parameter2>https://github.com/DKorablin/Plugin.NetworkPluginProvider</_Parameter2>
+		</AssemblyAttributes>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="SAL.Flatbed">
+			<ExcludeAssets>runtime</ExcludeAssets>
+		</PackageReference>
+		<PackageReference Include="System.Configuration.ConfigurationManager" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+		<Reference Include="System.Configuration" Condition="'$(TargetFramework)' == 'net35'" />
+		<PackageReference Include="System.IO.FileSystem.AccessControl" Condition="'$(TargetFramework)'=='netstandard2.0'" />
+	</ItemGroup>
+
 	<ItemGroup>
 		<Compile Include="..\PluginProviders.Shared\FilePluginArgs.cs">
 			<Link>Data\FilePluginArgs.cs</Link>
@@ -40,10 +69,5 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Resources.resx</DependentUpon>
 		</Compile>
-	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="SAL.Flatbed" Version="1.2.10" />
-		<PackageReference Include="System.IO.FileSystem.AccessControl" Version="5.0.0" />
-		<PackageReference Include="System.Configuration.ConfigurationManager" Version="9.0.0" />
 	</ItemGroup>
 </Project>

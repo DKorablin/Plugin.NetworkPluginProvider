@@ -5,13 +5,13 @@
 		<Assembly Name="Interop.MSTSCLib" Description="Assembly imported from type library 'MSTSCLib'." Version="1.0.0.0"/>
 		<Assembly Name="AxInterop.MSTSCLib" Description="Assembly imported from type library 'MSTSCLib'." Version="1.0.0.0"/>
 	</Plugin>
-	<Plugin Name="Plugin.SingleInstance" Description="Ограничить приложение единственным экземпляром" Version="1.0.0.0"/>
+	<Plugin Name="Plugin.SingleInstance" Description="Restrict an application to a single instance" Version="1.0.0.0"/>
 	<Plugin Name="Plugin.IISControl" Description="IIS Control Plugin" Version="1.0.0.0"/>
 	<Plugin Name="Plugin.ExceptionLogger" Description="View &amp; Manage exception logging service" Version="1.0.1.0">
 		<Assembly Name="ExceptionLogger" Description="Logger Engine" Version="1.1.0.0"/>
 	</Plugin>
 	<Plugin Name="Plugin.Compiler" Description="Compile runtime code for various functions" Version="1.0.0.3"/>
 	<Plugin Name="Plugin.Browser" Description="Using ebedded brower in the Windows forms application" Version="1.0.0.0"/>
-	<Plugin Name="Plugin.Autorun" Description="Автозапуск приложения при запуске системы" Version="1.0.0.0"/>
+	<Plugin Name="Plugin.Autorun" Description="Autostart the application at system startup" Version="1.0.0.0"/>
 	<Plugin Name="Plugin.WebHelper" Description="Various tools for ASP.NET programmers. ViewState Decoder original author: Fritz Onion" Version="1.0.0.0"/>
 </Plugins>

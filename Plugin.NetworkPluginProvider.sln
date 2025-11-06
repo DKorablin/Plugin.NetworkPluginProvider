@@ -6,7 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{29EFF129-D181-471B-939B-05374FAEB871}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
-		Plugin.NetworkPluginProvider.dll.nuspec = Plugin.NetworkPluginProvider.dll.nuspec
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		Directory.Packages.props = Directory.Packages.props
 		README.md = README.md
 	EndProjectSection
 EndProject
@@ -19,7 +21,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Workflows", "Workflows", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Plugin.NetworkPluginProvider", "Plugin.NetworkPluginProvider\Plugin.NetworkPluginProvider.csproj", "{E073FFDE-6992-425E-89E9-17DA6DB93E4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin.NetworkPluginProvider35", "Plugin.NetworkPluginProvider\Plugin.NetworkPluginProvider35.csproj", "{F4D8CC4E-5733-46BF-B0E6-BCD97B62D21E}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		.github\scripts\Build-ReleasePackage.ps1 = .github\scripts\Build-ReleasePackage.ps1
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,16 +36,13 @@ Global
 		{E073FFDE-6992-425E-89E9-17DA6DB93E4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E073FFDE-6992-425E-89E9-17DA6DB93E4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E073FFDE-6992-425E-89E9-17DA6DB93E4A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F4D8CC4E-5733-46BF-B0E6-BCD97B62D21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F4D8CC4E-5733-46BF-B0E6-BCD97B62D21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F4D8CC4E-5733-46BF-B0E6-BCD97B62D21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F4D8CC4E-5733-46BF-B0E6-BCD97B62D21E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{06D963D4-9A0B-4B2B-A3C3-B1A534140FD0} = {29EFF129-D181-471B-939B-05374FAEB871}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {29EFF129-D181-471B-939B-05374FAEB871}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA4632CB-F2AC-4E96-82A0-59488827569D}

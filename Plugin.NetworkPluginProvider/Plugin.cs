@@ -18,7 +18,7 @@ namespace Plugin.NetworkPluginProvider
 
 		internal IHost Host { get; }
 
-		/// <summary>Родительский провайдер плагинов</summary>
+		/// <summary>Parent Plugin Provider</summary>
 		IPluginProvider IPluginProvider.ParentProvider { get; set; }
 
 		Object IPluginSettings.Settings { get => this.Settings; }
@@ -39,8 +39,8 @@ namespace Plugin.NetworkPluginProvider
 		public Plugin(IHost host)
 			=> this.Host = host ?? throw new ArgumentNullException(nameof(host));
 
-		/// <summary>Пересоздать XML файл для обновления.</summary>
-		/// <remarks>Создаваемый файл не перезаписывается, а создаётся как копия</remarks>
+		/// <summary>Recreate the XML file for the update.</summary>
+		/// <remarks>The created file is not overwritten, but created as a copy.</remarks>
 		public void RebuildXmlFile()
 		{
 			UpdateInfo info = UpdateInfo.LoadPlugins(Path.Combine(this._args.PluginPath[0], Constant.XmlFileName));
@@ -98,8 +98,8 @@ namespace Plugin.NetworkPluginProvider
 							AssemblyName name = AssemblyName.GetAssemblyName(file);
 							if(name.FullName == targetName.FullName)
 								return Assembly.LoadFile(file);
-							//return assembly;//TODO: Reference DLL из оперативной памяти не цепляются!
-						} catch(Exception)//Пропускаем все ошибки. Мы Resolve'им библиотеку, а не разбираемся с плагинами
+							//return assembly;//TODO: Reference DLLs are not loaded from RAM!
+						} catch(Exception)//We skip all errors. We resolve the library, not deal with plugins.
 						{
 							continue;
 						}
@@ -128,7 +128,7 @@ namespace Plugin.NetworkPluginProvider
 								{
 									Assembly asm = Assembly.LoadFile(file);
 									this.Host.Plugins.LoadPlugin(asm, file, ConnectMode.Startup);
-								} catch(BadImageFormatException)//Ошибка загрузки плагина. Можно почитать заголовок загружаемого файла, но мне влом
+								} catch(BadImageFormatException)//Plugin loading error. I could read the title of the file being loaded, but I'm too lazy.
 								{
 									continue;
 								} catch(Exception exc)

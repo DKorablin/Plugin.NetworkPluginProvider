@@ -10,7 +10,7 @@ namespace Plugin.NetworkPluginProvider
 		internal PluginSettings(Plugin plugin)
 			=> this.Plugin = plugin ?? throw new ArgumentNullException(nameof(plugin));
 
-		[Description("Пересоздать XML файл для обновления. Создаваемый файл не перезаписывается, а создаётся как копия")]
+		[Description("Recreate the XML file for the update. The file created is not overwritten, but created as a copy.")]
 		public Boolean RebuildXmlFile
 		{
 			get => false;
@@ -22,7 +22,7 @@ namespace Plugin.NetworkPluginProvider
 		}
 
 		[Category("Proxy")]
-		[Description("Использовать авторизация по умолчанию")]
+		[Description("Use default authorization")]
 		[DisplayName("Default Credentials")]
 		[DefaultValue(false)]
 		public Boolean UseDefaultCredentials { get; set; }

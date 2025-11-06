@@ -13,10 +13,10 @@ namespace Plugin.NetworkPluginProvider.Data
 
 		public delegate Boolean ComparerFunc(String filePath);
 
-		/// <summary>Загрузчик плагинов</summary>
+		/// <summary>Plugin loader</summary>
 		internal Plugin Plugin { get; }
 
-		/// <summary>Получить наименование приложения для которого прописывается функция автозапуска</summary>
+		/// <summary>Get the name of the application for which the autostart function is defined</summary>
 		protected String ApplicationName
 		{
 			get
@@ -26,22 +26,22 @@ namespace Plugin.NetworkPluginProvider.Data
 					application = Assembly.GetEntryAssembly().GetName().Name;
 				else
 					application = Process.GetCurrentProcess().ProcessName;
-				//Т.к. это загрузчик плагинов. И Kernel'а тут точно не будет.
+				//Because this is a plugin loader. The Kernel definitely won't be here.
 				/*IList<IPluginBase> kernels = this.Plugin.Host.Plugins.FindPluginType<IPluginKernel>();
 				foreach(var kernel in kernels)
-					application += "|" + kernel.ID.ToString();*/
+				application += "|" + kernel.ID.ToString();*/
 
 				return application;
 			}
 		}
 
-		/// <summary>Существует временная папка. Т.е. была ошибка из-за которой произошла смена папки</summary>
+		/// <summary>A temporary folder exists. This means there was an error that caused the folder to change.</summary>
 		private Boolean IsTempPathExists { get => Directory.Exists(this.GetTempPath()); }
 
-		/// <summary>Папка куда сохраняются плагины</summary>
+		/// <summary>The folder where plugins are saved.</summary>
 		private String LocalPath { get; }
 
-		/// <summary>Временная папка, куда сохраняются плагины, если невозможно сохранить в основную папку с плагинами</summary>
+		/// <summary>Temporary folder where plugins are saved if saving to the main plugins folder is not possible</summary>
 		private String TempPath
 		{
 			get
@@ -56,10 +56,10 @@ namespace Plugin.NetworkPluginProvider.Data
 			}
 		}
 
-		/// <summary>Использовать временный путь к файлам</summary>
+		/// <summary>Use a temporary path for files</summary>
 		internal Boolean IsTempPathUsed { get; private set; } = false;
 
-		/// <summary>Текущий путь для сохранения/загрузки плагинов</summary>
+		/// <summary>Current path for saving/loading plugins</summary>
 		internal String CurrentPath { get => this.IsTempPathUsed ? this.TempPath : this.LocalPath; }
 
 		internal PluginLoaderBase(Plugin plugin, String localPath)
@@ -71,10 +71,10 @@ namespace Plugin.NetworkPluginProvider.Data
 				this.IsTempPathUsed = true;
 		}
 
-		/// <summary>Получить временный путь для сохранения плагинов</summary>
-		/// <returns>Ссылка на временную папку</returns>
+		/// <summary>Get a temporary path for saving plugins</summary>
+		/// <returns>Reference to the temporary folder</returns>
 		private String GetTempPath()
-			=> Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), this.ApplicationName);
+		=> Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), this.ApplicationName);
 
 		internal Boolean Exists(String fileName)
 		{
@@ -82,9 +82,9 @@ namespace Plugin.NetworkPluginProvider.Data
 			return File.Exists(Path.Combine(this.CurrentPath, fileName));
 		}
 
-		/// <summary>Проверка разрешений на директорию</summary>
-		/// <param name="path">Директроия на которую провериь разрешения</param>
-		/// <returns>На директорию присутсвуют разрешения для записи и удаления</returns>
+		/// <summary>Checking directory permissions</summary>
+		/// <param name="path">Directory to check permissions for</param>
+		/// <returns>The directory has write and delete permissions</returns>
 		private static Boolean HasPermissionOnDir(String path)
 		{
 			DirectorySecurity acl;
@@ -140,10 +140,10 @@ namespace Plugin.NetworkPluginProvider.Data
 			{
 				deleg(filePath);
 			} catch(FileNotFoundException exc)
-			{//Файл не найден.
+			{//File not found.
 				this.Plugin.Trace.TraceData(TraceEventType.Error, 1, exc);
 			} catch(UnauthorizedAccessException)
-			{//Нет доступа на папку
+			{//Folder access denied
 				if(!this.IsTempPathUsed)
 				{
 					this.IsTempPathUsed = true;
@@ -151,14 +151,14 @@ namespace Plugin.NetworkPluginProvider.Data
 				} else
 					throw;
 			} catch(IOException)
-			{//Файл занят другим приложением
+			{//File in use by another application
 				if(File.Exists(filePath))
-				{//А файл-то есть?
+				{//Does the file exist?
 					String oldPath = filePath.Remove(filePath.Length - 1) + "_";
 					if(File.Exists(oldPath))
 						File.Delete(oldPath);
 
-					File.Move(filePath, oldPath);//Будет загружен только при следующей загрузки программы
+					File.Move(filePath, oldPath);//Will only be loaded the next time the program is loaded.
 					this.PerformIOAction(fileName, deleg);
 				} else
 					throw;

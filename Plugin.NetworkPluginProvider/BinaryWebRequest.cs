@@ -8,7 +8,7 @@ namespace AlphaOmega.Web
 	/// <summary>HttpWebRequest facade to read response as Byte[] or String</summary>
 	public class BinaryWebRequest : IDisposable
 	{
-		/// <summary>Минимальный размер буфера</summary>
+		/// <summary>Minimum buffer size</summary>
 		private const Int32 MinBufferLength = 1024;
 
 		/// <summary>The request instance</summary>
@@ -17,9 +17,9 @@ namespace AlphaOmega.Web
 		/// <summary>The response instance</summary>
 		protected HttpWebResponse Response { get; set; }
 
-		/// <summary>Создание экземпляра класса запроса Uri ссылки</summary>
-		/// <param name="uri">Ссылка ресурс в интернете</param>
-		/// <param name="useDefaultProxy">Использовать прокси аутентификацию</param>
+		/// <summary>Creating an instance of the Uri link request class</summary>
+		/// <param name="uri">Link resource on the internet</param>
+		/// <param name="useDefaultProxy">Use proxy authentication</param>
 		public BinaryWebRequest(String uri, Boolean useDefaultProxy)
 			: this((HttpWebRequest)WebRequest.Create(uri))
 		{
@@ -36,11 +36,11 @@ namespace AlphaOmega.Web
 			this.Request.UserAgent = "AlphaOmega.BinaryWebRequest";
 		}
 
-		/// <summary>Установка данных авторизации на проксю</summary>
-		/// <param name="user">Пользователь</param>
-		/// <param name="password">Пароль</param>
-		/// <param name="domain">Домен</param>
-		/// <returns>Успешность установки данных авторизации</returns>
+		/// <summary>Setting proxy authorization data</summary>
+		/// <param name="user">User</param>
+		/// <param name="password">Password</param>
+		/// <param name="domain">Domain</param>
+		/// <returns>Success of setting authorization data</returns>
 		public Boolean SetCredentials(String user, String password, String domain)
 		{
 			if(String.IsNullOrEmpty(user)
@@ -54,8 +54,8 @@ namespace AlphaOmega.Web
 			}
 		}
 
-		/// <summary>Получить поток ответа от сервера</summary>
-		/// <returns>Поток данных от сервера</returns>
+		/// <summary>Get the response stream from the server</summary>
+		/// <returns>Data stream from the server</returns>
 		public Stream GetResponseStream()
 		{
 			this.Response?.Close();
@@ -63,10 +63,10 @@ namespace AlphaOmega.Web
 			return this.Response.GetResponseStream();
 		}
 
-		/// <summary>Получить ответ от сервера</summary>
-		/// <returns>Массив байт полученного ответа</returns>
+		/// <summary>Get a response from the server</summary>
+		/// <returns>Byte array of the received response</returns>
 		public Byte[] GetResponse()
-		{//TODO: Почему-то это было закомментировано. (Используется в \Plugins.HttpHarvester\Plugins.Explosm\DocumentWriteComics.cs)
+		{//TODO: For some reason, this was commented out. (Used in \Plugins.HttpHarvester\Plugins.Explosm\DocumentWriteComics.cs)
 			Byte[] buffer = new Byte[4 * MinBufferLength];
 			using(Stream stream = this.GetResponseStream())
 			{
@@ -92,9 +92,9 @@ namespace AlphaOmega.Web
 				output.Write(buffer, 0, len);
 		}
 
-		/// <summary>Получить ответ от сервера</summary>
-		/// <param name="codePage">Кодовая страница, для корректного отображения страницы</param>
-		/// <returns>Ответ сервера на запрос</returns>
+		/// <summary>Get a response from the server</summary>
+		/// <param name="codePage">Code page for displaying the page correctly</param>
+		/// <returns>Server response to the request</returns>
 		public String GetResponse(Int32 codePage)
 			=> this.GetResponse(Encoding.GetEncoding(codePage));
 

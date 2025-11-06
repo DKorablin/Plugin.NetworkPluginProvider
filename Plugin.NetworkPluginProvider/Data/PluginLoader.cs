@@ -3,38 +3,38 @@ using System.IO;
 
 namespace Plugin.NetworkPluginProvider.Data
 {
-	/// <summary>Класс манипуляций с загруженными плагинами</summary>
+	/// <summary>Class for handling loaded plugins</summary>
 	internal class PluginLoader : PluginLoaderBase
 	{
 		internal PluginLoader(Plugin plugin, String localPath)
-			: base(plugin,localPath)
+		: base(plugin, localPath)
 		{
 		}
 
-		/// <summary>Удалить файл</summary>
-		/// <param name="fileName">Наименование файла для удаления</param>
+		/// <summary>Delete file</summary>
+		/// <param name="fileName">Name of the file to delete</param>
 		internal void DeleteFile(String fileName)
 		{
 			fileName = Path.GetFileName(fileName);
-			base.PerformIOAction(fileName, delegate(String path) { File.Delete(path); });
+			base.PerformIOAction(fileName, delegate (String path) { File.Delete(path); });
 		}
 
-		/// <summary>Сохранить файл</summary>
-		/// <param name="fileName">Наименование файла для сохранения</param>
-		/// <param name="bytes">Содержимое файла</param>
+		/// <summary>Save file</summary>
+		/// <param name="fileName">Name of file to save</param>
+		/// <param name="bytes">File contents</param>
 		internal void SaveFile(String fileName, Byte[] bytes)
 		{
 			fileName = Path.GetFileName(fileName);
-			base.PerformIOAction(fileName, delegate(String path) { File.WriteAllBytes(path, bytes); });
+			base.PerformIOAction(fileName, delegate (String path) { File.WriteAllBytes(path, bytes); });
 		}
 
-		/// <summary>Скопировать файл из одного места в другое место</summary>
-		/// <param name="downloadPath">Исходный путь</param>
-		/// <param name="fileName">Целевой путь</param>
+		/// <summary>Copy a file from one location to another</summary>
+		/// <param name="downloadPath">Source path</param>
+		/// <param name="fileName">Destination path</param>
 		internal void CopyFile(String downloadPath, String fileName)
 		{
 			fileName = Path.GetFileName(fileName);
-			base.PerformIOAction(fileName, delegate(String path) { File.Copy(Path.Combine(downloadPath, fileName), path, true); });
+			base.PerformIOAction(fileName, delegate (String path) { File.Copy(Path.Combine(downloadPath, fileName), path, true); });
 		}
 	}
 }

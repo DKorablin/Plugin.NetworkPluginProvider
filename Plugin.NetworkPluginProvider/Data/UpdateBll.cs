@@ -9,7 +9,7 @@ using SAL.Flatbed;
 
 namespace Plugin.NetworkPluginProvider.Data
 {
-	/// <summary>Манипуляция с информацией о плагинах</summary>
+	/// <summary>Manipulating plugin information</summary>
 	internal class UpdateBll
 	{
 		private readonly PluginLoader _loader;
@@ -18,17 +18,17 @@ namespace Plugin.NetworkPluginProvider.Data
 
 		private DateTime? _lastModified;
 
-		/// <summary>Появилась новая версия</summary>
+		/// <summary>A new version has appeared</summary>
 		public Boolean UpdateAvailable
 		{
 			get => this._local != null && (!this.CheckLocalPlugins() || this.IsNewVersion());
 		}
 
-		/// <summary>Создание экземпляра класса с указанием пути до XML файла с информацией</summary>
-		/// <param name="plugin">The reference to current plugin provider.</param>
-		/// <param name="localPath">Путь к XML файлу</param>
+		/// <summary>Creating a class instance with the path to the XML file containing the information</summary>
+		/// <param name="plugin">The reference to the current plugin provider.</param>
+		/// <param name="localPath">Path to the XML file</param>
 		public UpdateBll(Plugin plugin, String localPath)
-			: this(new PluginLoader(plugin, localPath))
+		: this(new PluginLoader(plugin, localPath))
 		{
 		}
 
@@ -38,7 +38,7 @@ namespace Plugin.NetworkPluginProvider.Data
 			this._local = UpdateInfo.LoadPlugins(Path.Combine(this._loader.CurrentPath, Constant.XmlFileName));
 		}
 
-		/// <summary>Обновить список плагинов</summary>
+		/// <summary>Update the plugin list</summary>
 		public void UpdatePlugins()
 		{
 			if(this._local == null)
@@ -46,7 +46,7 @@ namespace Plugin.NetworkPluginProvider.Data
 
 			UpdateInfo source = UpdateInfo.LoadPlugins(this._local.UpdatePath);
 			foreach(PluginInfo localInfo in this._local.Plugins)
-			{//Удаление устаревших плагинов
+			{//Remove obsolete plugins
 				Boolean found = false;
 				foreach(PluginInfo sourceInfo in source.Plugins)
 					if(localInfo.Name == sourceInfo.Name)
@@ -55,9 +55,9 @@ namespace Plugin.NetworkPluginProvider.Data
 						break;
 					}
 				if(!found)
-				{//Удаление плагина который больше не поддерживается
+				{//Remove a plugin that is no longer supported
 					try
-					{//Файл может быть залочен. Нужен механизм удаения фалов после перезапуска
+					{//The file may be locked. A mechanism for deleting files after a restart is needed
 						this._loader.DeleteFile(localInfo.Path);
 					} catch { }
 					foreach(ReferenceInfo refAsm in localInfo.References)
@@ -69,25 +69,25 @@ namespace Plugin.NetworkPluginProvider.Data
 			}
 
 			foreach(PluginInfo sourceInfo in source.Plugins)
-			{//Поиск обновлений или новых плагинов
+			{//Search for updates or new plugins
 				Boolean found = false;
 				foreach(PluginInfo localInfo in this._local.Plugins)
 					if(localInfo.Name == sourceInfo.Name && this._loader.Exists(localInfo.Path))
-					{//Новая версия старого плагина
+					{//New version of an old plugin
 						found = true;
 						if(localInfo.Version < sourceInfo.Version)
 							this.DownloadPlugin(source.DownloadPath, sourceInfo);
 						break;
 					}
-				if(!found)//Загрузка нового плагина
+				if(!found)//Download a new plugin
 					this.DownloadPlugin(source.DownloadPath, sourceInfo);
 			}
 
-			this.SavePlugins(source);//Копирование XML файла в локальное хранилище
+			this.SavePlugins(source);//Copy the XML file to local storage
 		}
 
-		/// <summary>Проверка на наличие всех модулей</summary>
-		/// <returns>Все модули в наличии</returns>
+		/// <summary>Checking for the presence of all modules</summary> 
+		/// <returns>All modules available</returns> 
 		private Boolean CheckLocalPlugins()
 		{
 			foreach(PluginInfo local in this._local.Plugins)
@@ -101,12 +101,12 @@ namespace Plugin.NetworkPluginProvider.Data
 			return true;
 		}
 
-		/// <summary>Проверить наличие нового файла с описаниями плагинов</summary>
-		/// <returns>Существует более новая версия</returns>
+		/// <summary>Check for a new file with plugin descriptions</summary>
+		/// <returns>A newer version exists</returns>
 		private Boolean IsNewVersion()
 		{
-			String source = this._local.UpdatePath;//Путь для обновления
-			String local = Path.Combine(this._loader.CurrentPath, Constant.XmlFileName);//Путь к локальному файлу
+			String source = this._local.UpdatePath;//Path to update
+			String local = Path.Combine(this._loader.CurrentPath, Constant.XmlFileName);//Path to local file
 
 			if(File.Exists(local))
 			{
@@ -135,9 +135,9 @@ namespace Plugin.NetworkPluginProvider.Data
 				return false;
 		}
 
-		/// <summary>Загрузить плагин в локальный массив пагинов</summary>
-		/// <param name="downloadPath">Путь по которому обновить плагин</param>
-		/// <param name="info">Описание плагина для загрузки</param>
+		/// <summary>Download the plugin to the local plugin array</summary>
+		/// <param name="downloadPath">Path to update the plugin</param>
+		/// <param name="info">Description of the plugin to download</param>
 		private void DownloadPlugin(String downloadPath, PluginInfo info)
 		{
 			if(Uri.IsWellFormedUriString(downloadPath, UriKind.Absolute))
@@ -145,13 +145,13 @@ namespace Plugin.NetworkPluginProvider.Data
 				try
 				{
 					using(BinaryWebRequest request = new BinaryWebRequest(downloadPath + info.Path, this._loader.Plugin.Settings.UseDefaultCredentials))
-					{//Копирование плагина
+					{//Copy the plugin
 						Byte[] plugin = request.GetResponse();
 						this._loader.SaveFile(info.Path, plugin);
 					}
 
 					foreach(ReferenceInfo refAsm in info.References)
-					{//Копирование сборок, на которые ссылается плагин
+					{//Copying assemblies referenced by the plugin 
 						using(BinaryWebRequest request = new BinaryWebRequest(downloadPath + refAsm.Path, this._loader.Plugin.Settings.UseDefaultCredentials))
 						{
 							Byte[] plugin = request.GetResponse();
@@ -166,7 +166,7 @@ namespace Plugin.NetworkPluginProvider.Data
 			{
 				this._loader.CopyFile(downloadPath, info.Path);
 
-				foreach(ReferenceInfo refAsm in info.References)//Копирование сборок на которые ссылается плагин
+				foreach(ReferenceInfo refAsm in info.References)//Copying assemblies referenced by the plugin
 					this._loader.CopyFile(downloadPath, refAsm.Path);
 			}
 		}
@@ -174,11 +174,11 @@ namespace Plugin.NetworkPluginProvider.Data
 		public void SavePlugins(UpdateInfo info)
 			=> this.SavePlugins(info.UpdatePath, info.Plugins);
 
-		/// <summary>Сохранить информацию о плагинах в XML файле</summary>
-		/// <param name="updatePath">Путь по которому произвести обновление</param>
-		/// <param name="plugins">Массив информации о плагинах</param>
+		/// <summary>Save plugin information in an XML file</summary>
+		/// <param name="updatePath">Path to update</param>
+		/// <param name="plugins">Array of plugin information</param>
 		public void SavePlugins(String updatePath, PluginInfo[] plugins)
-			=> UpdateInfo.SavePlugins(Path.Combine(this._loader.CurrentPath, Constant.XmlFileName), updatePath, plugins);
+		=> UpdateInfo.SavePlugins(Path.Combine(this._loader.CurrentPath, Constant.XmlFileName), updatePath, plugins);
 
 		public void LoadPlugins()
 		{
@@ -188,7 +188,7 @@ namespace Plugin.NetworkPluginProvider.Data
 					Assembly asm = Assembly.LoadFile(file);
 					this._loader.Plugin.Host.Plugins.LoadPlugin(asm, file, ConnectMode.Startup);
 				} catch(BadImageFormatException)
-				{//Ошибка загрузки плагина. Можно почитать заголовок загружаемого файла, но мне влом
+				{//Error loading plugin. I could read the header of the file being loaded, but I'm too lazy.
 					continue;
 				} catch(Exception exc)
 				{
