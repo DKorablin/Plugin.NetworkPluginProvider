@@ -29,7 +29,7 @@ namespace AlphaOmega.Web
 
 		/// <summary>Create instance if <see cref="BinaryWebRequest"/> with webRequest instance</summary>
 		/// <param name="request">The request instance</param>
-		/// <exception cref="ArgumentNullException">request shoud not be null</exception>
+		/// <exception cref="ArgumentNullException"><paramref name="request"/> should not be null</exception>
 		public BinaryWebRequest(HttpWebRequest request)
 		{
 			this.Request = request ?? throw new ArgumentNullException(nameof(request));
@@ -122,6 +122,15 @@ namespace AlphaOmega.Web
 
 		/// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
 		public void Dispose()
-			=> this.Response?.Close();
+		{
+			this.Dispose(true);
+			GC.SuppressFinalize(this);
+		}
+
+		protected virtual void Dispose(Boolean isManaged)
+		{
+			if(isManaged)
+				this.Response?.Close();
+		}
 	}
 }

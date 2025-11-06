@@ -106,9 +106,7 @@ namespace Plugin.NetworkPluginProvider
 
 			this.Trace.TraceEvent(TraceEventType.Warning, 5, "The provider {2} is unable to locate the assembly {0} in the path {1}", assemblyName, String.Join(",", this._args.PluginPath), this.GetType());
 			IPluginProvider parentProvider = ((IPluginProvider)this).ParentProvider;
-			return parentProvider == null
-				? null
-				: parentProvider.ResolveAssembly(assemblyName);
+			return parentProvider?.ResolveAssembly(assemblyName);
 		}
 
 		private void FindPluginI()
