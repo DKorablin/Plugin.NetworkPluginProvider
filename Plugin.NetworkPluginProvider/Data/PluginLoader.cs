@@ -16,7 +16,7 @@ namespace Plugin.NetworkPluginProvider.Data
 		internal void DeleteFile(String fileName)
 		{
 			fileName = Path.GetFileName(fileName);
-			base.PerformIOAction(fileName, delegate (String path) { File.Delete(path); });
+			base.PerformIOAction(fileName, File.Delete);
 		}
 
 		/// <summary>Save file</summary>
@@ -25,7 +25,7 @@ namespace Plugin.NetworkPluginProvider.Data
 		internal void SaveFile(String fileName, Byte[] bytes)
 		{
 			fileName = Path.GetFileName(fileName);
-			base.PerformIOAction(fileName, delegate (String path) { File.WriteAllBytes(path, bytes); });
+			base.PerformIOAction(fileName, path => File.WriteAllBytes(path, bytes));
 		}
 
 		/// <summary>Copy a file from one location to another</summary>
@@ -34,7 +34,7 @@ namespace Plugin.NetworkPluginProvider.Data
 		internal void CopyFile(String downloadPath, String fileName)
 		{
 			fileName = Path.GetFileName(fileName);
-			base.PerformIOAction(fileName, delegate (String path) { File.Copy(Path.Combine(downloadPath, fileName), path, true); });
+			base.PerformIOAction(fileName, path => File.Copy(Path.Combine(downloadPath, fileName), path, true));
 		}
 	}
 }

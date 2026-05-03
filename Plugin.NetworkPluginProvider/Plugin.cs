@@ -10,11 +10,10 @@ namespace Plugin.NetworkPluginProvider
 {
 	public class Plugin : IPluginProvider, IPluginSettings<PluginSettings>
 	{
-		private TraceSource _trace;
 		private PluginSettings _settings;
 		private FilePluginArgs _args;
 
-		internal TraceSource Trace { get => this._trace ?? (this._trace = Plugin.CreateTraceSource<Plugin>()); }
+		internal ITraceSource Trace { get; }
 
 		internal IHost Host { get; }
 
@@ -36,8 +35,11 @@ namespace Plugin.NetworkPluginProvider
 			}
 		}
 
-		public Plugin(IHost host)
-			=> this.Host = host ?? throw new ArgumentNullException(nameof(host));
+		public Plugin(IHost host, ITraceSource trace)
+		{
+			this.Host = host ?? throw new ArgumentNullException(nameof(host));
+			this.Trace = trace ?? throw new ArgumentNullException(nameof(trace));
+		}
 
 		/// <summary>Recreate the XML file for the update.</summary>
 		/// <remarks>The created file is not overwritten, but created as a copy.</remarks>
@@ -92,16 +94,16 @@ namespace Plugin.NetworkPluginProvider
 			AssemblyName targetName = new AssemblyName(assemblyName);
 			foreach(String pluginPath in this._args.PluginPath)
 				if(Directory.Exists(pluginPath))
-					foreach(String file in new PluginLoader(this, pluginPath).GetFiles((String fileName) => { return FilePluginArgs.CheckFileExtension(fileName); }))
+					foreach(String file in new PluginLoader(this, pluginPath).GetFiles(FilePluginArgs.CheckFileExtension))
 						try
 						{
 							AssemblyName name = AssemblyName.GetAssemblyName(file);
 							if(name.FullName == targetName.FullName)
 								return Assembly.LoadFile(file);
 							//return assembly;//TODO: Reference DLLs are not loaded from RAM!
-						} catch(Exception)//We skip all errors. We resolve the library, not deal with plugins.
+						} catch(Exception)
 						{
-							continue;
+							//We skip all errors. We resolve the library, not deal with plugins.
 						}
 
 			this.Trace.TraceEvent(TraceEventType.Warning, 5, "The provider {2} is unable to locate the assembly {0} in the path {1}", assemblyName, String.Join(",", this._args.PluginPath), this.GetType());
@@ -135,15 +137,6 @@ namespace Plugin.NetworkPluginProvider
 									this.Host.LogException(this, exc);
 								}*/
 				}
-		}
-
-		private static TraceSource CreateTraceSource<T>(String name = null) where T : IPlugin
-		{
-			TraceSource result = new TraceSource(typeof(T).Assembly.GetName().Name + name);
-			result.Switch.Level = SourceLevels.All;
-			result.Listeners.Remove("Default");
-			result.Listeners.AddRange(System.Diagnostics.Trace.Listeners);
-			return result;
 		}
 
 		/// <summary>Get a unique file name that is not duplicated in the file system.</summary>

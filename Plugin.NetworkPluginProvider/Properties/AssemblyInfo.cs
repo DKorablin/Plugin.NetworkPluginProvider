@@ -5,4 +5,3 @@ using System.Runtime.InteropServices;
 [assembly: System.CLSCompliant(true)]
 
 [assembly: AssemblyDescription("Provides access to plugins through the network")]
-[assembly: AssemblyCopyright("Copyright © Danila Korablin 2011-2025")]
