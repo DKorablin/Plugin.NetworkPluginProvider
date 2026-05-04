@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFrameworks>net35;netstandard2.0</TargetFrameworks>
+		<TargetFrameworks>net48;netstandard2.0</TargetFrameworks>
 		<OutputType>Library</OutputType>
 		<RootNamespace>Plugin.NetworkPluginProvider</RootNamespace>
 		<Configuration>Release</Configuration>
@@ -31,7 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AssemblyAttributes Include="AssemblyMetadata" Condition="'$(TargetFramework)'=='netstandard2.0'">
+		<AssemblyAttributes Include="AssemblyMetadata">
 			<_Parameter1>ProjectUrl</_Parameter1>
 			<_Parameter2>https://github.com/DKorablin/Plugin.NetworkPluginProvider</_Parameter2>
 		</AssemblyAttributes>
@@ -42,7 +42,7 @@
 			<ExcludeAssets>runtime</ExcludeAssets>
 		</PackageReference>
 		<PackageReference Include="System.Configuration.ConfigurationManager" Condition="'$(TargetFramework)'=='netstandard2.0'" />
-		<Reference Include="System.Configuration" Condition="'$(TargetFramework)' == 'net35'" />
+		<Reference Include="System.Configuration" Condition="'$(TargetFramework)' == 'net48'" />
 		<PackageReference Include="System.IO.FileSystem.AccessControl" Condition="'$(TargetFramework)'=='netstandard2.0'" />
 	</ItemGroup>
 

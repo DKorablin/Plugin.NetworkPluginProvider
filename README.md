@@ -1,7 +1,7 @@
 # Network Plugin Provider
 [![Auto build](https://github.com/DKorablin/Plugin.NetworkPluginProvider/actions/workflows/release.yml/badge.svg)](https://github.com/DKorablin/Plugin.NetworkPluginProvider/releases/latest)
 
-A plugin provider for the SAL (Software Application Layer) framework that enables automatic downloading, updating, and loading of plugins from remote servers.
+A plugin provider for the SAL (Software Abstraction Layer) framework that enables automatic downloading, updating, and loading of plugins from remote servers.
 
 ## Features
 
@@ -46,13 +46,13 @@ On your server, create a `Plugins.Network.xml` file that describes available plu
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <Plugins Path="https://api.yourserver.com/plugins/">
-    <Plugin Name="YourPlugin" Path="YourPlugin.dll" Description="Your plugin description" Version="1.0.0.0"/>
-    
-    <!-- Plugin with dependencies -->
-    <Plugin Name="AdvancedPlugin" Description="Plugin with dependencies" Version="1.0.1.0">
-        <Assembly Name="Dependency1" Description="Required dependency" Version="1.0.0.0"/>
-        <Assembly Name="Dependency2" Description="Another dependency" Version="2.0.0.0"/>
-    </Plugin>
+	<Plugin Name="YourPlugin" Path="YourPlugin.dll" Description="Your plugin description" Version="1.0.0.0"/>
+
+	<!-- Plugin with dependencies -->
+	<Plugin Name="AdvancedPlugin" Description="Plugin with dependencies" Version="1.0.1.0">
+		<Assembly Name="Dependency1" Description="Required dependency" Version="1.0.0.0"/>
+		<Assembly Name="Dependency2" Description="Another dependency" Version="2.0.0.0"/>
+	</Plugin>
 </Plugins>
 ```
 
@@ -115,7 +115,7 @@ When a plugin has dependencies (referenced assemblies), the provider:
 
 ```xml
 <Plugins Path="[URL or local path]">
-    <!-- Plugin definitions -->
+	<!-- Plugin definitions -->
 </Plugins>
 ```
 
@@ -126,7 +126,7 @@ When a plugin has dependencies (referenced assemblies), the provider:
 
 ```xml
 <Plugin Name="[PluginName]" Path="[Optional]" Description="[Optional]" Version="[Required]">
-    <!-- Optional assembly references -->
+	<!-- Optional assembly references -->
 </Plugin>
 ```
 
@@ -156,12 +156,12 @@ When a plugin has dependencies (referenced assemblies), the provider:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <Plugins Path="https://cdn.example.com/app-plugins/">
-    <Plugin Name="Kernel.Empty" Path="Kernel.Empty.dll" 
-            Description="Empty kernel library for generic host" 
-            Version="1.0.0.0"/>
-    <Plugin Name="Plugin.Autorun" 
-            Description="Autostart application after system starts" 
-            Version="1.0.0.0"/>
+	<Plugin Name="Kernel.Empty" Path="Kernel.Empty.dll" 
+			Description="Empty kernel library for generic host" 
+			Version="1.0.0.0"/>
+	<Plugin Name="Plugin.Autorun" 
+			Description="Autostart application after system starts" 
+			Version="1.0.0.0"/>
 </Plugins>
 ```
 
@@ -170,16 +170,16 @@ When a plugin has dependencies (referenced assemblies), the provider:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <Plugins Path="https://cdn.example.com/app-plugins/">
-    <Plugin Name="Plugin.RDP" 
-            Description="Remote Desktop Protocol Client" 
-            Version="1.0.1.0">
-        <Assembly Name="Interop.MSTSCLib" 
-                  Description="Assembly imported from type library 'MSTSCLib'." 
-                  Version="1.0.0.0"/>
-        <Assembly Name="AxInterop.MSTSCLib" 
-                  Description="Assembly imported from type library 'MSTSCLib'." 
-                  Version="1.0.0.0"/>
-    </Plugin>
+	<Plugin Name="Plugin.RDP" 
+			Description="Remote Desktop Protocol Client" 
+			Version="1.0.1.0">
+		<Assembly Name="Interop.MSTSCLib" 
+				  Description="Assembly imported from type library 'MSTSCLib'." 
+				  Version="1.0.0.0"/>
+		<Assembly Name="AxInterop.MSTSCLib" 
+				  Description="Assembly imported from type library 'MSTSCLib'." 
+				  Version="1.0.0.0"/>
+	</Plugin>
 </Plugins>
 ```
 
@@ -188,7 +188,7 @@ When a plugin has dependencies (referenced assemblies), the provider:
 ```xml
 <?xml version="1.0" encoding="utf-8" ?>
 <Plugins Path="\\FileServer\SharedPlugins\">
-    <Plugin Name="Plugin.Custom" Version="2.0.0.0"/>
+	<Plugin Name="Plugin.Custom" Version="2.0.0.0"/>
 </Plugins>
 ```
 
